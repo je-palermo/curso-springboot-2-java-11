@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -50,6 +51,14 @@ public class UserResource {
 		// Forma padrão de gerar o endereço 
 		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(obj.getId()).toUri();
 		return ResponseEntity.created(uri).body(obj);
+	}
+	
+	@DeleteMapping(value = "{/id}")
+	public ResponseEntity<Void> delete(@PathVariable Long id){
+		service.delete(id);
+		// noContent() retorna uma resposta vazia, e o código http de uma resposta 
+		// que não tem conteúdo é o 204 que será tratado pelo método noContent()
+		return ResponseEntity.noContent().build();
 	}
 
 }
